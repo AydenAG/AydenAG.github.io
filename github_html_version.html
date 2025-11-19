@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D Print Shop - Ayden Gratier</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #5a67d8 0%, #6b46c1 100%);
+            color: white;
+            padding: 3rem 1rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .header p {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            margin-bottom: 1.5rem;
+        }
+        
+        .contact-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+        
+        .contact-link {
+            background: rgba(255,255,255,0.2);
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            color: white;
+            text-decoration: none;
+            transition: all 0.3s;
+            backdrop-filter: blur(10px);
+        }
+        
+        .contact-link:hover {
+            background: rgba(255,255,255,0.3);
+            transform: translateY(-2px);
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem 1rem;
+        }
+        
+        .hero {
+            background: white;
+            border-radius: 20px;
+            padding: 3rem 2rem;
+            text-align: center;
+            margin-bottom: 3rem;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+        
+        .hero h2 {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: 1.1rem;
+            color: #4a5568;
+            margin-bottom: 2rem;
+        }
+        
+        .badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+        }
+        
+        .badge {
+            padding: 0.5rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+        
+        .badge-green {
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .badge-blue {
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        .badge-purple {
+            background: #e9d5ff;
+            color: #6b21a8;
+        }
+        
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .price-card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            border: 3px solid transparent;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+        
+        .price-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            border-color: #667eea;
+        }
+        
+        .price-card.selected {
+            border-color: #667eea;
+            background: linear-gradient(135deg, #f0f4ff 0%, #f5f0ff 100%);
+        }
+        
+        .price {
+            font-size: 3rem;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 0.5rem;
+        }
+        
+        .size-name {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 1rem;
+            text-transform: capitalize;
+        }
+        
+        .time {
+            color: #718096;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .examples {
+            color: #a0aec0;
+            font-size: 0.85rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .main-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        
+        @media (max-width: 768px) {
+            .main-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+        
+        .order-form {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .order-form h2 {
+            font-size: 2rem;
+            color: #2d3748;
+            margin-bottom: 2rem;
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        label {
+            display: block;
+            font-weight: 600;
+            color: #2d3748;
+            margin-bottom: 0.5rem;
+            font-size: 0.9rem;
+        }
+        
+        input, textarea {
+            width: 100%;
+            padding: 0.75rem;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+        
+        input:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .checkbox-group {
+            background: #fef3c7;
+            border: 2px solid #fbbf24;
+            padding: 1rem;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .checkbox-group input {
+            width: auto;
+            margin-right: 0.75rem;
+        }
+        
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 1rem;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0,0,0,0.15);
+        }
+        
+        .submit-btn:active {
+            transform: translateY(0);
+        }
+        
+        .sidebar {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        .info-card {
+            background: white;
+            border-radius: 15px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        
+        .info-card.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .info-card h3 {
+            font-size: 1.25rem;
+            margin-bottom: 1rem;
+        }
+        
+        .info-card.primary h3 {
+            color: white;
+        }
+        
+        .steps {
+            list-style: none;
+        }
+        
+        .steps li {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+        
+        .step-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+        }
+        
+        .success-message {
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        
+        .success-icon {
+            font-size: 5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .success-message h3 {
+            font-size: 2rem;
+            color: #10b981;
+            margin-bottom: 1rem;
+        }
+        
+        .footer {
+            text-align: center;
+            padding: 2rem;
+            color: white;
+            opacity: 0.8;
+        }
+        
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <h1>🖨️ 3D Print Shop</h1>
+        <p>Quality 3D Prints • Fast Delivery • Great Prices</p>
+        <div class="contact-bar">
+            <a href="mailto:ayden.gratier@gmail.com" class="contact-link">📧 ayden.gratier@gmail.com</a>
+            <a href="https://wa.me/34612345678" class="contact-link">💬 WhatsApp</a>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="hero">
+            <h2>Turn Your Ideas Into Reality</h2>
+            <p>From custom keychains to complex models - I can print it for you!</p>
+            <div class="badges">
+                <span class="badge badge-green">✓ Fast Turnaround</span>
+                <span class="badge badge-blue">✓ Quality Prints</span>
+                <span class="badge badge-purple">✓ Fair Prices</span>
+            </div>
+        </div>
+
+        <div class="pricing-grid">
+            <div class="price-card" onclick="selectSize('small', 5)">
+                <div class="price">€5</div>
+                <div class="size-name">Small Print</div>
+                <div class="time">⏱️ 1-3 hours</div>
+                <div class="examples">Keychains, phone stands, small figures</div>
+            </div>
+            <div class="price-card selected" onclick="selectSize('medium', 10)">
+                <div class="price">€10</div>
+                <div class="size-name">Medium Print</div>
+                <div class="time">⏱️ 3-8 hours</div>
+                <div class="examples">Phone cases, organizers, medium decorations</div>
+            </div>
+            <div class="price-card" onclick="selectSize('large', 15)">
+                <div class="price">€15</div>
+                <div class="size-name">Large Print</div>
+                <div class="time">⏱️ 8+ hours</div>
+                <div class="examples">Vases, large models, complex parts</div>
+            </div>
+        </div>
+
+        <div class="main-grid">
+            <div class="order-form">
+                <h2>📦 Place Your Order</h2>
+                
+                <div id="orderForm">
+                    <div class="form-group">
+                        <label>Your Name *</label>
+                        <input type="text" id="name" placeholder="John Doe" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Email *</label>
+                        <input type="email" id="email" placeholder="john@example.com" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Phone (Optional)</label>
+                        <input type="tel" id="phone" placeholder="+34 612 345 678">
+                    </div>
+
+                    <div class="form-group">
+                        <label>What do you want printed? *</label>
+                        <textarea id="description" placeholder="Describe your print in detail... (e.g., 'Blue keychain with my initials A.G.', 'Phone stand for iPhone 14', etc.)" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Reference Image/File Link (Optional)</label>
+                        <input type="url" id="reference" placeholder="https://...">
+                        <small style="color: #718096; font-size: 0.8rem;">Link to image, STL file from Thingiverse, or design reference</small>
+                    </div>
+
+                    <div class="form-group">
+                        <div class="checkbox-group">
+                            <input type="checkbox" id="urgent">
+                            <label for="urgent" style="margin: 0;">🚀 Rush order (+€3) - Priority processing, faster delivery</label>
+                        </div>
+                    </div>
+
+                    <button class="submit-btn" onclick="submitOrder()">
+                        📧 Send Order via Email • €<span id="totalPrice">10</span>
+                    </button>
+                    <p style="text-align: center; color: #718096; font-size: 0.75rem; margin-top: 1rem;">
+                        Clicking this button will open your email app with all the order details pre-filled
+                    </p>
+                </div>
+
+                <div id="successMessage" class="success-message hidden">
+                    <div class="success-icon">✅</div>
+                    <h3>Order Email Ready!</h3>
+                    <p style="color: #4a5568; font-size: 1.1rem; margin-bottom: 1rem;">Your email client should have opened with your order details.</p>
+                    <p style="color: #718096;">If it didn't open, please email me directly at:</p>
+                    <a href="mailto:ayden.gratier@gmail.com" style="color: #667eea; font-weight: 600; font-size: 1.1rem;">ayden.gratier@gmail.com</a>
+                    <br><br>
+                    <button onclick="resetForm()" style="background: #667eea; color: white; border: none; padding: 0.75rem 2rem; border-radius: 8px; cursor: pointer; font-weight: 600;">Place Another Order</button>
+                </div>
+            </div>
+
+            <div class="sidebar">
+                <div class="info-card primary">
+                    <h3>📋 How It Works</h3>
+                    <ol class="steps">
+                        <li>
+                            <span class="step-number">1</span>
+                            <span>Choose your size and fill out the form</span>
+                        </li>
+                        <li>
+                            <span class="step-number">2</span>
+                            <span>Email will be sent to me automatically</span>
+                        </li>
+                        <li>
+                            <span class="step-number">3</span>
+                            <span>I'll confirm details within 24 hours</span>
+                        </li>
+                        <li>
+                            <span class="step-number">4</span>
+                            <span>Your print ready in 1-3 days!</span>
+                        </li>
+                    </ol>
+                </div>
+
+                <div class="info-card">
+                    <h3>💳 Payment</h3>
+                    <p style="color: #4a5568; font-size: 0.9rem;">Pay on delivery or pickup. Cash or bank transfer accepted. No upfront payment needed!</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>✨ Quality Guarantee</h3>
+                    <p style="color: #4a5568; font-size: 0.9rem;">Not happy with your print? I'll reprint it for free, no questions asked!</p>
+                </div>
+
+                <div class="info-card">
+                    <h3>📞 Contact</h3>
+                    <p style="margin-bottom: 0.5rem;"><a href="mailto:ayden.gratier@gmail.com" style="color: #667eea; text-decoration: none;">📧 ayden.gratier@gmail.com</a></p>
+                    <p><a href="https://wa.me/34612345678" style="color: #10b981; text-decoration: none;">💬 WhatsApp (Fast Response)</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <footer class="footer">
+        <p>© 2024 3D Print Shop | Barcelona, Spain</p>
+        <p style="font-size: 0.8rem; margin-top: 0.5rem;">Made with ❤️ by a young entrepreneur</p>
+    </footer>
+
+    <script>
+        let selectedSize = 'medium';
+        let basePrice = 10;
+
+        function selectSize(size, price) {
+            selectedSize = size;
+            basePrice = price;
+            
+            // Update UI
+            document.querySelectorAll('.price-card').forEach(card => {
+                card.classList.remove('selected');
+            });
+            event.currentTarget.classList.add('selected');
+            
+            updatePrice();
+        }
+
+        function updatePrice() {
+            const urgent = document.getElementById('urgent').checked;
+            const total = basePrice + (urgent ? 3 : 0);
+            document.getElementById('totalPrice').textContent = total;
+        }
+
+        document.getElementById('urgent').addEventListener('change', updatePrice);
+
+        function submitOrder() {
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const phone = document.getElementById('phone').value;
+            const description = document.getElementById('description').value;
+            const reference = document.getElementById('reference').value;
+            const urgent = document.getElementById('urgent').checked;
+
+            if (!name || !email || !description) {
+                alert('Please fill in all required fields (Name, Email, Description)');
+                return;
+            }
+
+            const total = basePrice + (urgent ? 3 : 0);
+            
+            const emailSubject = encodeURIComponent(`3D Print Order - ${name}`);
+            const emailBody = encodeURIComponent(
+                `NEW 3D PRINT ORDER\n\n` +
+                `Name: ${name}\n` +
+                `Email: ${email}\n` +
+                `Phone: ${phone || 'Not provided'}\n\n` +
+                `SIZE: ${selectedSize.toUpperCase()}\n` +
+                `Price: €${total}\n` +
+                `Rush Order: ${urgent ? 'YES (+€3)' : 'No'}\n\n` +
+                `DESCRIPTION:\n${description}\n\n` +
+                `Reference Link: ${reference || 'None'}\n\n` +
+                `---\n` +
+                `Please confirm this order when you receive this email!`
+            );
+            
+            window.location.href = `mailto:ayden.gratier@gmail.com?subject=${emailSubject}&body=${emailBody}`;
+            
+            document.getElementById('orderForm').classList.add('hidden');
+            document.getElementById('successMessage').classList.remove('hidden');
+        }
+
+        function resetForm() {
+            document.getElementById('orderForm').classList.remove('hidden');
+            document.getElementById('successMessage').classList.add('hidden');
+            document.getElementById('name').value = '';
+            document.getElementById('email').value = '';
+            document.getElementById('phone').value = '';
+            document.getElementById('description').value = '';
+            document.getElementById('reference').value = '';
+            document.getElementById('urgent').checked = false;
+            updatePrice();
+        }
+    </script>
+</body>
+</html>
